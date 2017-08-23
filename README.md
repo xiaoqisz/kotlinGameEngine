@@ -28,7 +28,7 @@
     ```
     import javafx.scene.input.KeyEvent
     import org.itheima.kotlin.game.core.Window
-    <br/>
+    
     class MyWindow : Window() {
         override fun onCreate() {
             //窗体创建回调
@@ -52,7 +52,7 @@
     
     ```
     import javafx.application.Application
-    <br/>
+    
     fun main(args: Array<String>) {
         Application.launch(MyWindow::class.java)
     }
