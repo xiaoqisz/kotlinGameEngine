@@ -2,6 +2,8 @@
 
 采用Kotlin 结合 JavaFX 编写的游戏引擎
 
+想学习Kotlin的，请关注 https://ke.qq.com/course/233042
+
 
 ## 集成方式
 1. 在build.gradle中引入仓库
