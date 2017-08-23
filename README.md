@@ -6,18 +6,18 @@
 ## 使用方式
 1. 在build.gradle中引入仓库
     
-    ```
-allprojects {
-	repositories {
-		...
-		maven { url 'https://jitpack.io' }
-	}
-}
+     ```
+    allprojects {
+	        repositories {
+		            ...
+		            maven { url 'https://jitpack.io' }
+	        }
+    }
     ```
 2. 在build.gradle中添加依赖
     
     ```
-dependencies {
-	compile 'com.github.User:Repo:Tag'
-}
+    dependencies {
+        compile 'com.github.shaunxiao:kotlinGameEngine:v0.0.1'
+    }
     ```
