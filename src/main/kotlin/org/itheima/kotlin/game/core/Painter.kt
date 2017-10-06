@@ -3,6 +3,7 @@ package org.itheima.kotlin.game.core
 import javafx.scene.canvas.GraphicsContext
 import javafx.scene.image.Image
 import javafx.scene.paint.Color
+import javafx.scene.text.Font
 
 object Painter {
     private lateinit var gc: GraphicsContext
@@ -49,8 +50,12 @@ object Painter {
     /**
      * 绘制文本
      */
-    fun drawText(text: String, x: Int, y: Int) {
+    fun drawText(text: String, x: Int, y: Int, color: Color = Color.BLACK, font: Font = Font.getDefault()) {
+        gc.fill = color
+        gc.font = font
         gc.fillText(text, x.toDouble(), y.toDouble())
+        gc.font = Font.getDefault()
+        gc.fill = Color.BLACK
     }
 
 }
