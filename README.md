@@ -20,7 +20,7 @@
     
     ```
     dependencies {
-        compile 'com.github.shaunxiao:kotlinGameEngine:v0.0.2'
+        compile 'com.github.shaunxiao:kotlinGameEngine:v0.0.4'
     }
     ```
 
