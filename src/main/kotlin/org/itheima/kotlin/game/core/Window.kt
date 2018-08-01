@@ -23,13 +23,7 @@ abstract class Window(val title: String = "黑马程序员"
     internal val canvas = MyCanvas(width, height)
     internal val looper: Looper = Looper(this)
     internal var fps = 0L
-    //    private val keyPool = ThreadPoolExecutor(
-//            1,
-//            1,
-//            1000,
-//            TimeUnit.MILLISECONDS,
-//            ArrayBlockingQueue<Runnable>(1),
-//            ThreadPoolExecutor.DiscardOldestPolicy()
+
     private val keyPool = Executors.newSingleThreadExecutor()
     //    private val pool = Executors.newSingleThreadExecutor()
     private val pool = Executors.newScheduledThreadPool(1)
@@ -97,9 +91,11 @@ abstract class Window(val title: String = "黑马程序员"
             }
         }, 100, 120, TimeUnit.MILLISECONDS)
 
-        pool.scheduleWithFixedDelay({
+        // pool.scheduleWithFixedDelay({
+        pool.scheduleAtFixedRate({
             this@Window.onRefresh()
         }, 100, 20, TimeUnit.MILLISECONDS)
+
     }
 
 
