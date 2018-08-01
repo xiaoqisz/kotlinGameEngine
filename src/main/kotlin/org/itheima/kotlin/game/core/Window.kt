@@ -24,15 +24,14 @@ abstract class Window(val title: String = "黑马程序员"
     internal val looper: Looper = Looper(this)
     internal var fps = 0L
 
-    private val keyPool = Executors.newSingleThreadExecutor()
-    //    private val pool = Executors.newSingleThreadExecutor()
-    private val pool = Executors.newScheduledThreadPool(1)
+    //private val keyPool = Executors.newSingleThreadExecutor()
+    //private val pool = Executors.newScheduledThreadPool(1)
+//    private val keyRecorderPool = Executors.newScheduledThreadPool(1)
+
     private var running = false
 
-    private val keyRecorderPool = Executors.newScheduledThreadPool(1)
     private val keyRecorder = mutableMapOf<KeyCode, KeyEvent>()
     private var currentKey: KeyCode? = null
-
 
     override fun start(primaryStage: Stage?) {
         val group = Group()
@@ -52,23 +51,31 @@ abstract class Window(val title: String = "黑马程序员"
 
                 this.setOnCloseRequest {
                     looper.stop()
-                    keyPool.shutdownNow()
-                    keyRecorderPool.shutdown()
+//                    keyPool.shutdownNow()
+//                    keyRecorderPool.shutdown()
+//                    pool.shutdownNow()
                     running = false
-                    pool.shutdownNow()
                 }
                 show()
             }
         }
 
         scene.onKeyPressed = EventHandler() { event ->
-            keyPool.submit {
+//            keyPool.submit {
+//                Thread.currentThread().name = "hm-key"
+//                currentKey = event.code
+//                //记录
+//                keyRecorder.put(event.code, event)
+//                this@Window.onKeyPressed(event)
+//            }
+
+            Thread({
                 Thread.currentThread().name = "hm-key"
                 currentKey = event.code
                 //记录
                 keyRecorder.put(event.code, event)
                 this@Window.onKeyPressed(event)
-            }
+            }).start()
         }
 
         scene.onKeyReleased = EventHandler() { event ->
@@ -83,18 +90,41 @@ abstract class Window(val title: String = "黑马程序员"
 
         looper.start()
 
-        keyRecorderPool.scheduleWithFixedDelay({
-            keyRecorder.filter { entry ->
-                entry.key != currentKey
-            }.forEach { t, u ->
-                onKeyPressed(u)
+//        keyRecorderPool.scheduleWithFixedDelay({
+//            keyRecorder.filter { entry ->
+//                entry.key != currentKey
+//            }.forEach { t, u ->
+//                onKeyPressed(u)
+//            }
+//        }, 100, 120, TimeUnit.MILLISECONDS)
+
+        Thread({
+            while (true) {
+                Thread.sleep(150)
+                if (!running) break
+
+                keyRecorder.filter { entry ->
+                    entry.key != currentKey
+                }.forEach { t, u ->
+                    onKeyPressed(u)
+                }
             }
-        }, 100, 120, TimeUnit.MILLISECONDS)
+        }).start()
+
 
         // pool.scheduleWithFixedDelay({
-        pool.scheduleAtFixedRate({
-            this@Window.onRefresh()
-        }, 100, 20, TimeUnit.MILLISECONDS)
+        // pool.scheduleAtFixedRate({
+        //      this@Window.onRefresh()
+        //}, 100, 20, TimeUnit.MILLISECONDS)
+
+        Thread({
+            while (true) {
+                Thread.sleep(20)
+                if (!running) break
+
+                this@Window.onRefresh()
+            }
+        }).start()
 
     }
 
