@@ -61,7 +61,7 @@ abstract class Window(val title: String = "黑马程序员"
         }
 
         scene.onKeyPressed = EventHandler() { event ->
-//            keyPool.submit {
+            //            keyPool.submit {
 //                Thread.currentThread().name = "hm-key"
 //                currentKey = event.code
 //                //记录
@@ -89,6 +89,7 @@ abstract class Window(val title: String = "黑马程序员"
         onCreate()
 
         looper.start()
+        running = true
 
 //        keyRecorderPool.scheduleWithFixedDelay({
 //            keyRecorder.filter { entry ->
@@ -99,8 +100,9 @@ abstract class Window(val title: String = "黑马程序员"
 //        }, 100, 120, TimeUnit.MILLISECONDS)
 
         Thread({
+            Thread.sleep(200)
             while (true) {
-                Thread.sleep(150)
+                Thread.sleep(80)
                 if (!running) break
 
                 keyRecorder.filter { entry ->
@@ -118,13 +120,18 @@ abstract class Window(val title: String = "黑马程序员"
         //}, 100, 20, TimeUnit.MILLISECONDS)
 
         Thread({
+            Thread.sleep(200)
             while (true) {
                 Thread.sleep(20)
                 if (!running) break
 
                 this@Window.onRefresh()
             }
-        }).start()
+        }).let {
+            it.isDaemon = true
+            it.priority = Thread.MAX_PRIORITY
+            it.start()
+        }
 
     }
 
