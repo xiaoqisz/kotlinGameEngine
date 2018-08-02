@@ -55,6 +55,7 @@ abstract class Window(val title: String = "黑马程序员"
 //                    keyRecorderPool.shutdown()
 //                    pool.shutdownNow()
                     running = false
+                    System.exit(0)
                 }
                 show()
             }
